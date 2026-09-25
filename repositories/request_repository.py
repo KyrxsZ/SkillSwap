@@ -21,6 +21,24 @@ class LocalRequestRepository:
     def list(self):
         return self._read()
 
+    def get(self, request_id):
+        return next((item for item in self._read() if item["id"] == request_id), None)
+
+    def get_request_by_id(self, request_id):
+        return self.get(request_id)
+
+    def get_received(self, student_id):
+        return [item for item in self._read() if item.get("target_student_id") == student_id]
+
+    def get_received_requests(self, student_id):
+        return self.get_received(student_id)
+
+    def get_sent(self, student_id):
+        return [item for item in self._read() if item.get("requester_student_id") == student_id]
+
+    def get_sent_requests(self, student_id):
+        return self.get_sent(student_id)
+
     def create(self, exchange_request):
         items = self._read()
         items.insert(0, exchange_request.to_dict())
@@ -36,6 +54,9 @@ class LocalRequestRepository:
                 return item
         return None
 
+    def update_request_status(self, request_id, status):
+        return self.update_status(request_id, status)
+
 
 class DynamoDBRequestRepository:
     def __init__(self, table_name, region):
@@ -44,6 +65,24 @@ class DynamoDBRequestRepository:
 
     def list(self):
         return self.table.scan().get("Items", [])
+
+    def get(self, request_id):
+        return self.table.get_item(Key={"id": request_id}).get("Item")
+
+    def get_request_by_id(self, request_id):
+        return self.get(request_id)
+
+    def get_received(self, student_id):
+        return [item for item in self.list() if item.get("target_student_id") == student_id]
+
+    def get_received_requests(self, student_id):
+        return self.get_received(student_id)
+
+    def get_sent(self, student_id):
+        return [item for item in self.list() if item.get("requester_student_id") == student_id]
+
+    def get_sent_requests(self, student_id):
+        return self.get_sent(student_id)
 
     def create(self, exchange_request):
         item = exchange_request.to_dict()
@@ -59,3 +98,6 @@ class DynamoDBRequestRepository:
             ReturnValues="ALL_NEW",
         )
         return response.get("Attributes")
+
+    def update_request_status(self, request_id, status):
+        return self.update_status(request_id, status)

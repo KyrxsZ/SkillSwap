@@ -18,7 +18,10 @@ class Config:
     AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
     DYNAMODB_SKILLS_TABLE = os.getenv("DYNAMODB_SKILLS_TABLE", "skillswap-skills")
     DYNAMODB_REQUESTS_TABLE = os.getenv("DYNAMODB_REQUESTS_TABLE", "skillswap-requests")
+    DYNAMODB_USERS_TABLE = os.getenv("DYNAMODB_USERS_TABLE", "skillswap-users")
     S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME", "")
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = "Lax"
     HOST = os.getenv("HOST", "127.0.0.1")
     PORT = int(os.getenv("PORT", "5000"))
     DEBUG = os.getenv("FLASK_DEBUG", "false").lower() == "true"

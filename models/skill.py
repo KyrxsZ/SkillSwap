@@ -14,6 +14,7 @@ class Skill:
     learn: str
     image_url: Optional[str] = None
     created_at: str = ""
+    owner_student_id: Optional[str] = None
 
     def to_dict(self):
         return asdict(self)

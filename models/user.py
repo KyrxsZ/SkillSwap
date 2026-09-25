@@ -3,18 +3,11 @@ from datetime import datetime, timezone
 
 
 @dataclass
-class ExchangeRequest:
-    id: str
-    requester_name: str
-    skill_id: str
-    skill_title: str
-    message: str
-    exchange_skill: str
-    status: str = "Pending"
+class User:
+    student_id: str
+    name: str
+    password_hash: str
     created_at: str = ""
-    requester_student_id: str = ""
-    target_student_id: str = ""
-    target_student_name: str = ""
 
     def to_dict(self):
         return asdict(self)

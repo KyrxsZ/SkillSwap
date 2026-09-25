@@ -9,6 +9,8 @@ SkillSwap is a student-to-student skill exchange platform. Students can publish 
 - Skill detail pages with teach/learn information and portfolio images
 - Validated add-skill form with local uploads (5 MB limit)
 - Exchange request workflow with pending, accepted, and rejected states
+- Multi-user registration, login, logout, and password hashing
+- Private received/sent requests with owner-only accept/reject authorization
 - Local JSON persistence for a zero-setup demo
 - Repository and storage abstractions ready for DynamoDB and S3
 - Responsive desktop, tablet, and mobile layout
@@ -45,7 +47,7 @@ Open `http://127.0.0.1:5000`. The app listens on `HOST` and `PORT`; set `HOST=0.
 
 Copy `.env.example` to `.env`. Local mode is the default and requires no AWS account or credentials. Seed skills are created in `data/skills.json`; new skills and requests are written there so a demo survives a restart. Uploaded portfolio files are saved under `uploads/`.
 
-The app never contains AWS credentials. boto3 uses its normal credential provider chain, which means an EC2 IAM role can be used later without changing source code.
+The app never contains AWS credentials. boto3 uses its normal credential provider chain, which means an EC2 IAM role can be used later without changing source code. Local users are stored in `data/users.json`; AWS mode stores them in the `skillswap-users` DynamoDB table.
 
 ## AWS path
 
@@ -56,7 +58,7 @@ Browser -> EC2 Flask app -> DynamoDB (skills and requests)
                      \-> S3 (portfolio images)
 ```
 
-`DynamoDBSkillRepository`, `DynamoDBRequestRepository`, and `S3StorageService` are included as clear integration points. To complete the AWS switch, wire these implementations in `create_app` when `STORAGE_MODE=aws`, provision the two DynamoDB tables with `id` as the partition key, and give the EC2 instance profile access to those tables and the S3 bucket. No access keys belong in `.env` or source code.
+`DynamoDBSkillRepository`, `DynamoDBRequestRepository`, and `S3StorageService` are included as clear integration points. In AWS mode, the existing skills and requests tables use `id` as the partition key and the users table uses `student_id` as the partition key. Give the EC2 instance profile access to all three tables and the S3 bucket. No access keys belong in `.env` or source code.
 
 For an Amazon Linux EC2 deployment, install Python and the requirements, copy the project and a production `.env`, set `HOST=0.0.0.0`, configure the IAM role, and run behind Gunicorn and a reverse proxy such as Nginx. Open only the required HTTP/HTTPS security-group ports.
 

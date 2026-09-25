@@ -47,19 +47,15 @@
         Explore Skills
       </a>
 
-      <a href="{{ url_for('add_skill') }}">
-        Add Skill
-      </a>
-
-      <a href="{{ url_for('requests') }}">
-        Requests
-
-        {% if pending_request_count %}
-          <span class="nav-count">
-            {{ pending_request_count }}
-          </span>
-        {% endif %}
-      </a>
+      {% if session.get('student_id') %}
+        <a href="{{ url_for('add_skill') }}">Add Skill</a>
+        <a href="{{ url_for('requests') }}">Requests{% if pending_request_count %}<span class="nav-count">{{ pending_request_count }}</span>{% endif %}</a>
+        <span class="group-label">{{ current_user_name }}</span>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
 
       <!-- Project group -->
       <span class="group-label">
