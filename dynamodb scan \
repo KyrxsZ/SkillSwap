@@ -1,0 +1,49 @@
+{
+    "Items": [
+        {
+            "password_hash": {
+                "S": "scrypt:32768:8:1$SD3b9bEi6lK94mSc$51aa8952a5be56a09bba902a7f79c91550c784198f4d6bdd096981c5fd33952a2b5c66cfac9535a96429674d0f89b50f04d4becfe6e1ffd8b951548d373660fe"
+            },
+            "created_at": {
+                "S": "2026-09-25T17:27:29.472567+00:00"
+            },
+            "student_id": {
+                "S": "69130840043"
+            },
+            "name": {
+                "S": "KyrxsZ"
+            }
+        },
+        {
+            "created_at": {
+                "S": "2026-09-25T17:36:52.343142+00:00"
+            },
+            "student_id": {
+                "S": "12345678901"
+            },
+            "password_hash": {
+                "S": "scrypt:32768:8:1$0ifPl7XHCb2Cw0Ax$0c1df7a42db3df3384d952311847a82d3c27687eff84036ada0db5b2d3d10f8ce1185e5367fb402c5478e96be95744a1bab5619af26493a969d7f8a5891f279e"
+            },
+            "name": {
+                "S": "test1"
+            }
+        },
+        {
+            "created_at": {
+                "S": "2026-09-25T17:35:14.274183+00:00"
+            },
+            "student_id": {
+                "S": "69130740172"
+            },
+            "password_hash": {
+                "S": "scrypt:32768:8:1$HSOwJfl05M6XCeEb$46420784c3af87bc810ff64ec91537dd72f56e1423d333524145cc29644bf948c24a7aa00bbd24a06558b6b88b471a6ac33616b4e4aacb995f58067894981fe8"
+            },
+            "name": {
+                "S": "Gus"
+            }
+        }
+    ],
+    "Count": 3,
+    "ScannedCount": 3,
+    "ConsumedCapacity": null
+}
