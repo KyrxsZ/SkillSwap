@@ -99,6 +99,30 @@ def create_app(config_class=Config):
         if skill is None:
             return render_template("404.html"), 404
         return render_template("skill_detail.html", skill=skill)
+       
+    @app.route("/media/<path:key>")
+    def media(key):
+        from urllib.parse import urlparse
+        import boto3
+
+        if key.startswith("http://") or key.startswith("https://"):
+            key = urlparse(key).path.lstrip("/")
+
+        s3 = boto3.client(
+            "s3",
+            region_name=app.config["AWS_REGION"],
+        )
+
+        url = s3.generate_presigned_url(
+            "get_object",
+            Params={
+                "Bucket": app.config["S3_BUCKET_NAME"],
+                "Key": key,
+            },
+            ExpiresIn=3600,
+        )
+
+        return redirect(url)
 
     @app.route("/skills/new", methods=["GET", "POST"])
     @login_required
